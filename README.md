@@ -4,8 +4,7 @@ This is my personal portfolio website showcasing my work in **data analytics**, 
 
 ## 🚀 Live Website
 
-👉 [View Portfolio](#)
-_(Replace this with your deployed link)_
+👉 [https://atasikole.vercel.app/](https://atasikole.vercel.app/)
 
 ---
 
