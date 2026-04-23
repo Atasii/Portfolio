@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atasi Kole — Data Analyst & ML Engineer</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --bg: #0a0a08;
+            --surface: #111110;
+            --surface2: #1a1a18;
+            --border: rgba(255, 255, 255, 0.08);
+            --border2: rgba(255, 255, 255, 0.14);
+            --text: #f0ede6;
+            --muted: #888882;
+            --accent: #c8f060;
+            --accent2: #60d4f0;
+            --accent3: #f0a060;
+            --serif: 'DM Serif Display', Georgia, serif;
+            --sans: 'Instrument Sans', sans-serif;
+            --mono: 'DM Mono', monospace;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: var(--sans);
+            font-size: 15px;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 1000;
+            opacity: 0.5;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 48px;
+            background: rgba(10, 10, 8, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-logo {
+            font-family: var(--mono);
+            font-size: 13px;
+            color: var(--accent);
+            letter-spacing: 0.08em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-size: 12px;
+            font-family: var(--mono);
+            color: var(--muted);
+            text-decoration: none;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--text);
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 120px 48px 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-grid {
+            position: absolute;
+            inset: 0;
+            background-image: linear-gradient(rgba(200, 240, 96, 0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(200, 240, 96, 0.04) 1px, transparent 1px);
+            background-size: 60px 60px;
+            mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, black 30%, transparent 100%);
+        }
+
+        .hero-dot {
+            position: absolute;
+            top: 38%;
+            right: 12%;
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(200, 240, 96, 0.12) 0%, transparent 70%);
+            filter: blur(30px);
+            animation: pulse 6s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 0.6;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.08);
+            }
+        }
+
+        .hero-eyebrow {
+            font-family: var(--mono);
+            font-size: 12px;
+            color: var(--accent);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            opacity: 0;
+            animation: fadeUp 0.8s 0.2s forwards;
+        }
+
+        .hero-name {
+            font-family: var(--serif);
+            font-size: clamp(56px, 8vw, 96px);
+            line-height: 1;
+            letter-spacing: -0.02em;
+            color: var(--text);
+            opacity: 0;
+            animation: fadeUp 0.8s 0.4s forwards;
+        }
+
+        .hero-name em {
+            font-style: italic;
+            color: var(--accent);
+        }
+
+        .hero-desc {
+            margin-top: 28px;
+            max-width: 560px;
+            font-size: 17px;
+            color: var(--muted);
+            line-height: 1.7;
+            opacity: 0;
+            animation: fadeUp 0.8s 0.6s forwards;
+        }
+
+        .hero-desc strong {
+            color: var(--text);
+            font-weight: 500;
+        }
+
+        .hero-cta {
+            margin-top: 44px;
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            opacity: 0;
+            animation: fadeUp 0.8s 0.8s forwards;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 13px 28px;
+            background: var(--accent);
+            color: #0a0a08;
+            font-family: var(--sans);
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 4px;
+            text-decoration: none;
+            transition: transform 0.15s, box-shadow 0.15s;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(200, 240, 96, 0.3);
+        }
+
+        .btn-outline {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 13px 28px;
+            background: transparent;
+            color: var(--text);
+            font-family: var(--sans);
+            font-size: 14px;
+            font-weight: 500;
+            border-radius: 4px;
+            text-decoration: none;
+            border: 1px solid var(--border2);
+            transition: border-color 0.15s, background 0.15s;
+            cursor: pointer;
+        }
+
+        .btn-outline:hover {
+            border-color: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .hero-stats {
+            position: absolute;
+            right: 48px;
+            bottom: 80px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            opacity: 0;
+            animation: fadeLeft 0.8s 1s forwards;
+        }
+
+        .hero-stat {
+            text-align: right;
+            border-right: 2px solid var(--accent);
+            padding-right: 20px;
+        }
+
+        .hero-stat-num {
+            font-family: var(--serif);
+            font-size: 32px;
+            color: var(--text);
+            line-height: 1;
+        }
+
+        .hero-stat-label {
+            font-family: var(--mono);
+            font-size: 10px;
+            color: var(--muted);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-top: 3px;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeLeft {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        section {
+            padding: 100px 48px;
+        }
+
+        .section-label {
+            font-family: var(--mono);
+            font-size: 11px;
+            color: var(--accent);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+
+        .section-title {
+            font-family: var(--serif);
+            font-size: clamp(36px, 5vw, 56px);
+            line-height: 1.1;
+            color: var(--text);
+            margin-bottom: 56px;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: start;
+        }
+
+        .about-text {
+            font-size: 17px;
+            color: var(--muted);
+            line-height: 1.8;
+        }
+
+        .about-text p {
+            margin-bottom: 20px;
+        }
+
+        .about-text strong {
+            color: var(--text);
+            font-weight: 500;
+        }
+
+        .skill-group {
+            margin-bottom: 28px;
+        }
+
+        .skill-group-label {
+            font-family: var(--mono);
+            font-size: 10px;
+            color: var(--accent2);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .skill-tag {
+            padding: 5px 12px;
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 3px;
+            font-family: var(--mono);
+            font-size: 12px;
+            color: var(--text);
+            transition: border-color 0.2s;
+        }
+
+        .skill-tag:hover {
+            border-color: var(--border2);
+        }
+
+        #projects {
+            background: var(--surface);
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2px;
+            background: var(--border);
+        }
+
+        .project-card {
+            background: var(--surface);
+            padding: 36px 32px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            position: relative;
+            overflow: hidden;
+            transition: background 0.2s;
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--card-accent, var(--accent));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s;
+        }
+
+        .project-card:hover {
+            background: var(--surface2);
+        }
+
+        .project-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .project-number {
+            font-family: var(--mono);
+            font-size: 11px;
+            color: var(--muted);
+            letter-spacing: 0.06em;
+        }
+
+        .project-title {
+            font-family: var(--serif);
+            font-size: 22px;
+            color: var(--text);
+            line-height: 1.2;
+        }
+
+        .project-desc {
+            font-size: 13px;
+            color: var(--muted);
+            line-height: 1.65;
+            flex: 1;
+        }
+
+        .project-metrics {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .project-metric {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .metric-val {
+            font-family: var(--mono);
+            font-size: 18px;
+            font-weight: 500;
+            color: var(--text);
+        }
+
+        .metric-label {
+            font-size: 11px;
+            color: var(--muted);
+        }
+
+        .project-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 4px;
+        }
+
+        .stack-tag {
+            padding: 3px 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 2px;
+            font-family: var(--mono);
+            font-size: 10px;
+            color: var(--muted);
+        }
+
+        .project-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-family: var(--mono);
+            font-size: 11px;
+            color: var(--accent);
+            text-decoration: none;
+            letter-spacing: 0.04em;
+            margin-top: 4px;
+            transition: gap 0.2s;
+        }
+
+        .project-link:hover {
+            gap: 10px;
+        }
+
+        .edu-row {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 80px;
+            align-items: start;
+        }
+
+        .edu-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 28px;
+        }
+
+        .edu-school {
+            font-family: var(--serif);
+            font-size: 22px;
+            color: var(--text);
+            margin-bottom: 6px;
+        }
+
+        .edu-degree {
+            font-size: 13px;
+            color: var(--muted);
+            margin-bottom: 20px;
+        }
+
+        .cgpa-num {
+            font-family: var(--serif);
+            font-size: 42px;
+            color: var(--accent);
+            line-height: 1;
+        }
+
+        .cgpa-label {
+            font-family: var(--mono);
+            font-size: 11px;
+            color: var(--muted);
+            letter-spacing: 0.08em;
+        }
+
+        .course-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .course-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px 20px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            transition: border-color 0.2s;
+        }
+
+        .course-item:hover {
+            border-color: var(--border2);
+        }
+
+        .course-platform {
+            font-family: var(--mono);
+            font-size: 10px;
+            color: var(--accent2);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            min-width: 60px;
+        }
+
+        .course-name {
+            font-size: 14px;
+            color: var(--text);
+            flex: 1;
+        }
+
+        .course-badge {
+            font-family: var(--mono);
+            font-size: 10px;
+            padding: 3px 8px;
+            background: rgba(200, 240, 96, 0.1);
+            border: 1px solid rgba(200, 240, 96, 0.2);
+            border-radius: 2px;
+            color: var(--accent);
+        }
+
+        #contact {
+            background: var(--surface);
+        }
+
+        .contact-inner {
+            max-width: 640px;
+        }
+
+        .contact-links {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            margin-top: 40px;
+            background: var(--border);
+        }
+
+        .contact-link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 24px;
+            background: var(--surface);
+            text-decoration: none;
+            transition: background 0.15s;
+        }
+
+        .contact-link:hover {
+            background: var(--surface2);
+        }
+
+        .cl-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .cl-platform {
+            font-family: var(--mono);
+            font-size: 11px;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            min-width: 80px;
+        }
+
+        .cl-value {
+            font-size: 14px;
+            color: var(--text);
+        }
+
+        .cl-arrow {
+            font-size: 18px;
+            color: var(--muted);
+            transition: transform 0.2s, color 0.2s;
+        }
+
+        .contact-link:hover .cl-arrow {
+            transform: translate(4px, -4px);
+            color: var(--accent);
+        }
+
+        footer {
+            padding: 32px 48px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .footer-text {
+            font-family: var(--mono);
+            font-size: 11px;
+            color: var(--muted);
+        }
+
+        .footer-accent {
+            color: var(--accent);
+        }
+
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border2);
+            border-radius: 2px;
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <span class="nav-logo">AK.portfolio</span>
+        <ul class="nav-links">
+            <li><a href="#about">About</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#education">Education</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+    <section class="hero">
+        <div class="hero-grid"></div>
+        <div class="hero-dot"></div>
+        <p class="hero-eyebrow">Available for internships &amp; roles</p>
+        <h1 class="hero-name">Atasi<br><em>Kole</em></h1>
+        <p class="hero-desc"><strong>Data Analyst &amp; ML Engineer</strong> — I turn messy data into
+            decisions.<br>XGBoost, SQL, Streamlit, Python. KIIT CSE '27. I build things that actually ship.</p>
+        <div class="hero-cta">
+            <a href="#projects" class="btn-primary">View Projects ↓</a>
+            <a href="#contact" class="btn-outline">Get in touch</a>
+        </div>
+        <div class="hero-stats">
+            <div class="hero-stat">
+                <div class="hero-stat-num">9.65</div>
+                <div class="hero-stat-label">CGPA · KIIT</div>
+            </div>
+            <div class="hero-stat">
+                <div class="hero-stat-num">3</div>
+                <div class="hero-stat-label">Live Projects</div>
+            </div>
+            <div class="hero-stat">
+                <div class="hero-stat-num">85%</div>
+                <div class="hero-stat-label">Model Accuracy</div>
+            </div>
+        </div>
+    </section>
+    <section id="about">
+        <p class="section-label">01 — About</p>
+        <div class="about-grid">
+            <div>
+                <h2 class="section-title">I make data<br><em style="font-style:italic;color:var(--accent)">do
+                        things.</em></h2>
+                <div class="about-text">
+                    <p>I'm a 2nd year CSE student at KIIT University with a <strong>9.65 CGPA</strong>, focused on the
+                        intersection of data analysis and machine learning. I don't just build models — I ship
+                        dashboards that non-technical stakeholders can actually use.</p>
+                    <p>My projects span customer churn prediction, marketing segmentation, and financial advisory tools.
+                        Each one is <strong>deployed, documented, and explainable</strong> — because a model that lives
+                        only in a notebook isn't a real project.</p>
+                    <p>Currently looking for <strong>Data Analyst internships</strong> and <strong>12+ LPA
+                            roles</strong> where I can work on real problems with real data.</p>
+                </div>
+            </div>
+            <div>
+                <div class="skill-group">
+                    <p class="skill-group-label">Languages</p>
+                    <div class="skill-tags"><span class="skill-tag">Python</span><span class="skill-tag">SQL</span><span
+                            class="skill-tag">C</span><span class="skill-tag">Java</span><span
+                            class="skill-tag">JavaScript</span></div>
+                </div>
+                <div class="skill-group">
+                    <p class="skill-group-label">ML &amp; Data</p>
+                    <div class="skill-tags"><span class="skill-tag">Scikit-learn</span><span
+                            class="skill-tag">XGBoost</span><span class="skill-tag">Pandas</span><span
+                            class="skill-tag">NumPy</span><span class="skill-tag">Matplotlib</span><span
+                            class="skill-tag">Seaborn</span><span class="skill-tag">EDA</span><span
+                            class="skill-tag">Feature Engineering</span></div>
+                </div>
+                <div class="skill-group">
+                    <p class="skill-group-label">Tools &amp; Deployment</p>
+                    <div class="skill-tags"><span class="skill-tag">Streamlit</span><span
+                            class="skill-tag">Git</span><span class="skill-tag">GitHub</span><span
+                            class="skill-tag">HTML/CSS</span></div>
+                </div>
+                <div class="skill-group">
+                    <p class="skill-group-label">Core Concepts</p>
+                    <div class="skill-tags"><span class="skill-tag">Classification</span><span
+                            class="skill-tag">Clustering</span><span class="skill-tag">RFM Analysis</span><span
+                            class="skill-tag">Data Cleaning</span><span class="skill-tag">Dashboarding</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="projects">
+        <p class="section-label">02 — Work</p>
+        <h2 class="section-title">Projects that<br>shipped.</h2>
+        <div class="projects-grid">
+            <div class="project-card" style="--card-accent: var(--accent);">
+                <span class="project-number">001</span>
+                <h3 class="project-title">Customer Churn Prediction</h3>
+                <p class="project-desc">Binary classification model on 7,043 telecom records. Surfaced that
+                    month-to-month contracts drive 5× higher churn. Shipped as an interactive Streamlit dashboard for
+                    business stakeholders.</p>
+                <div class="project-metrics">
+                    <div class="project-metric"><span class="metric-val">85%</span><span
+                            class="metric-label">Accuracy</span></div>
+                    <div class="project-metric"><span class="metric-val">0.87</span><span
+                            class="metric-label">ROC-AUC</span></div>
+                    <div class="project-metric"><span class="metric-val">7,043</span><span
+                            class="metric-label">Records</span></div>
+                </div>
+                <div class="project-stack"><span class="stack-tag">XGBoost</span><span
+                        class="stack-tag">Python</span><span class="stack-tag">Streamlit</span><span
+                        class="stack-tag">EDA</span></div>
+                <a href="https://github.com/Atasii" class="project-link">View on GitHub →</a>
+            </div>
+            <div class="project-card" style="--card-accent: var(--accent2);">
+                <span class="project-number">002</span>
+                <h3 class="project-title">Marketing Campaign Analysis</h3>
+                <p class="project-desc">Segmented 2,240 customers into 7 groups via K-Means + RFM. Cut low-ROI campaign
+                    spend by 80%. Built a next-best-action recommendation engine that lifted simulated conversion
+                    15–20%.</p>
+                <div class="project-metrics">
+                    <div class="project-metric"><span class="metric-val">2,240</span><span
+                            class="metric-label">Customers</span></div>
+                    <div class="project-metric"><span class="metric-val">−80%</span><span class="metric-label">Wasted
+                            spend</span></div>
+                    <div class="project-metric"><span class="metric-val">+18%</span><span
+                            class="metric-label">Conversion lift</span></div>
+                </div>
+                <div class="project-stack"><span class="stack-tag">K-Means</span><span class="stack-tag">RFM</span><span
+                        class="stack-tag">Pandas</span><span class="stack-tag">Streamlit</span></div>
+                <a href="https://github.com/Atasii" class="project-link">View on GitHub →</a>
+            </div>
+            <div class="project-card" style="--card-accent: var(--accent3);">
+                <span class="project-number">003</span>
+                <h3 class="project-title">Personal AI Financial Adviser</h3>
+                <p class="project-desc">Full-stack web app collecting income, expenses, and goals to generate
+                    personalised budget plans. Rule-based engine structured for plug-in ML model integration. Modular,
+                    ML-ready architecture.</p>
+                <div class="project-metrics">
+                    <div class="project-metric"><span class="metric-val">Full</span><span
+                            class="metric-label">Stack</span></div>
+                    <div class="project-metric"><span class="metric-val">ML</span><span
+                            class="metric-label">Ready</span></div>
+                </div>
+                <div class="project-stack"><span class="stack-tag">Python</span><span
+                        class="stack-tag">JavaScript</span><span class="stack-tag">HTML/CSS</span><span
+                        class="stack-tag">Rule Engine</span></div>
+                <a href="https://github.com/Atasii" class="project-link">View on GitHub →</a>
+            </div>
+        </div>
+    </section>
+    <section id="education">
+        <p class="section-label">03 — Education</p>
+        <h2 class="section-title">Background.</h2>
+        <div class="edu-row">
+            <div class="edu-card">
+                <h3 class="edu-school">KIIT University</h3>
+                <p class="edu-degree">B.Tech in Computer Science &amp; Engineering · 2023–2027</p>
+                <div style="display:inline-flex;align-items:baseline;gap:6px;"><span class="cgpa-num">9.65</span><span
+                        class="cgpa-label">CGPA</span></div>
+            </div>
+            <div>
+                <p
+                    style="font-family:var(--mono);font-size:11px;color:var(--accent2);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:16px;">
+                    Certifications &amp; Courses</p>
+                <div class="course-list">
+                    <div class="course-item"><span class="course-platform">Coursera</span><span
+                            class="course-name">Machine Learning — Andrew Ng</span><span
+                            class="course-badge">Certified</span></div>
+                    <div class="course-item"><span class="course-platform">Kaggle</span><span class="course-name">Python
+                            for Data Science</span><span class="course-badge">Certified</span></div>
+                    <div class="course-item"><span class="course-platform">Kaggle</span><span
+                            class="course-name">Pandas</span><span class="course-badge">Certified</span></div>
+                    <div class="course-item"><span class="course-platform">Kaggle</span><span class="course-name">Data
+                            Visualization</span><span class="course-badge">Certified</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="contact">
+        <p class="section-label">04 — Contact</p>
+        <div class="contact-inner">
+            <h2 class="section-title">Let's work<br><em style="font-style:italic;color:var(--accent)">together.</em>
+            </h2>
+            <p style="font-size:16px;color:var(--muted);line-height:1.7;">Open to Data Analyst internships, ML Engineer
+                roles, and 12+ LPA full-time positions. I reply within 24 hours.</p>
+            <div class="contact-links">
+                <a class="contact-link" href="mailto:atasikolexi05@gmail.com">
+                    <div class="cl-left"><span class="cl-platform">Email</span><span
+                            class="cl-value">atasikolejh@gmail.com</span></div><span class="cl-arrow">↗</span>
+                </a>
+                <a class="contact-link" href="https://www.linkedin.com/in/atasi-kole-5274662aa/" target="_blank">
+                    <div class="cl-left"><span class="cl-platform">LinkedIn</span><span
+                            class="cl-value">linkedin.com/in/atasi-kole</span></div><span class="cl-arrow">↗</span>
+                </a>
+                <a class="contact-link" href="https://github.com/Atasii" target="_blank">
+                    <div class="cl-left"><span class="cl-platform">GitHub</span><span
+                            class="cl-value">github.com/Atasii</span></div><span class="cl-arrow">↗</span>
+                </a>
+            </div>
+        </div>
+    </section>
+    <footer>
+        <span class="footer-text">© 2025 <span class="footer-accent">Atasi Kole</span></span>
+        <span class="footer-text">KIIT CSE · Bhubaneswar, India</span>
+    </footer>
+</body>
+
+</html>
